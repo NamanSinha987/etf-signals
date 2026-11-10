@@ -22,7 +22,10 @@ Pushed to GitHub on 10 Nov 2026: https://github.com/NamanSinha987/etf-signals (p
 
 ## Next step
 
-**Step 6b - Naman:** Actions tab -> run "Daily ETF signals" manually -> check the log
+**Phase 1 is live (10 Nov 2026).** Watch a week of scheduled runs (step 6e below), then start
+Phase 2 (backtest harness).
+
+_Previous step notes:_ Actions tab -> run "Daily ETF signals" manually -> check the log
 (does Yahoo work from GitHub? does the bhavcopy fallback get blocked?). Add Telegram secrets
 `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` (README has the steps).
 
@@ -34,7 +37,11 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
 - [x] 6c. First manual run on GitHub (10 Nov 2026, 17:23 IST): green in 22 s, tests passed,
         Yahoo works from GitHub, bot committed data. No 10 Nov bar yet (run was before the
         18:47 schedule; possibly an NSE holiday) - so the bhavcopy fallback is still unverified.
-- [ ] 6d. Telegram secrets (Naman), then watch the scheduled 18:47 runs for a week
+- [x] 6d. Telegram secrets added; message received on 10 Nov 2026 17:57 IST (incl. the
+        "NO NEW PRICES" warning).
+- [ ] 6e. Watch the scheduled 18:47 IST runs for a week (Telegram message + "Daily update"
+        commit each weekday). Check whether 10 Nov gets a bar (holiday or not) and whether
+        the bhavcopy fallback ever kicks in from GitHub.
 - [ ] Install Python 3.12 on the laptop (Naman)
 - [ ] Phase 2: backtest harness reusing `src/strategy.py`; consider NSE bhavcopy parquet data (below)
 
