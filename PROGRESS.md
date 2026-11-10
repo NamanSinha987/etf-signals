@@ -63,6 +63,14 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   check for missing files or old symbol names. Too big for the repo; intended for Phase 2 backtests
   and cross-checking Yahoo.
 
+## Decisions
+
+- **10 Nov 2026 - storage:** keep data in the GitHub repo (CSV, ~1.6 MB, grows <1 KB/day; git
+  history = point-in-time record). Move to object storage (R2/S3, Parquet) when constituent,
+  fundamental or bhavcopy data is added. The 1.2 GB bhavcopy archive never goes in this repo.
+- **10 Nov 2026 - direction:** project will grow into fundamental and component-wise strategies
+  (see CLAUDE.md "Long-term direction"). Price-only for now, to test the pipeline end to end.
+
 ## Open issues / notes
 
 - Laptop Python is 3.9.2, GitHub uses 3.12 - install 3.12 locally. Tests pass on 3.9; CI checks 3.12.

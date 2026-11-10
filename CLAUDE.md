@@ -18,6 +18,14 @@ order placement for now.** Low infra budget.
   equal weight, rest cash. Parameters in `config.yaml`.
 - Universe: 12 liquid NSE ETFs in `config.yaml` (broad, sector, gold/silver, international).
 
+## Long-term direction (decided 10 Nov 2026)
+Naman wants this to grow beyond price-only strategies: fundamentals, component-wise
+(index constituents -> ETF-level features such as breadth, aggregate valuation, earnings
+growth), multiple robust strategies. Phase 1 deliberately stays price-only to prove the
+end-to-end pipeline. Storage: git-committed CSVs for now; move to object storage
+(e.g. Cloudflare R2 / S3, Parquet) once constituent / fundamental / bhavcopy data is added.
+Keep all storage behind `load_*` / `save_*` functions so that move touches one module.
+
 ## Roadmap
 1. **Phase 1 (done 9 Nov 2026):** minimal pipeline + workflow + Telegram notify.
    Pending: move `daily.yml` into `.github/workflows/`, push to GitHub, test a manual run.
