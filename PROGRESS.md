@@ -70,6 +70,18 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   check for missing files or old symbol names. Too big for the repo; intended for Phase 2 backtests
   and cross-checking Yahoo.
 
+## Phase 2 - backtesting (started 10 Nov 2026)
+
+- Backtester is a **separate public library** at `D:\NotWindows\Quant2.0\backtester` (own repo,
+  own PROGRESS.md). v0.1.0 done and tested; installed here in editable mode
+  (`pip install -e ../backtester`). Not needed by the daily pipeline - research only.
+- **Data problem found:** Yahoo prices are 10x-100x too small for a few days around unit splits:
+  19-20 Dec 2019 (NIFTYBEES, BANKBEES, GOLDBEES, HNGSNGBEES, PSUBNKBEES) and 17-18 Jun 2021
+  (MON100). Doesn't affect live signals (200-day lookback) but breaks any backtest over those
+  dates. SILVERBEES -19% / -23% on 30 Jan / 2 Feb 2026 is real (silver crash).
+- **Next:** (1) Naman pushes the backtester repo; (2) clean the Yahoo split glitches;
+  (3) `backtest.py` here: baseline result of the current strategy vs NIFTYBEES.
+
 ## Decisions
 
 - **10 Nov 2026 - storage:** keep data in the GitHub repo (CSV, ~1.6 MB, grows <1 KB/day; git
