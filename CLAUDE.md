@@ -28,7 +28,7 @@ Keep all storage behind `load_*` / `save_*` functions so that move touches one m
 
 ## Roadmap
 1. **Phase 1 (done 9 Nov 2026):** minimal pipeline + workflow + Telegram notify.
-   Pending: move `daily.yml` into `.github/workflows/`, push to GitHub, test a manual run.
+   Hardened, tested and live on GitHub since 10 Nov 2026 (see PROGRESS.md).
 2. **Phase 2:** backtest harness that reuses `src/strategy.py` (no separate research code),
    with costs/slippage, CAGR / Sharpe / max DD / turnover; `signals/history.csv` is the
    paper-trading log.
