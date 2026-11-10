@@ -1,0 +1,33 @@
+# ETF signal pipeline configuration
+# Edit this file to change the universe or strategy parameters - no code changes needed.
+
+universe:
+  # NSE symbols (no ".NS" suffix). Starter basket of liquid ETFs across asset classes.
+  - NIFTYBEES     # Nifty 50
+  - JUNIORBEES    # Nifty Next 50
+  - MID150BEES    # Nifty Midcap 150
+  - BANKBEES      # Nifty Bank
+  - PSUBNKBEES    # Nifty PSU Bank
+  - ITBEES        # Nifty IT
+  - PHARMABEES    # Nifty Pharma
+  - CPSEETF       # CPSE index
+  - GOLDBEES      # Gold
+  - SILVERBEES    # Silver
+  - MON100        # Nasdaq 100 (international)
+  - HNGSNGBEES    # Hang Seng (international)
+
+data:
+  history_start: "2018-01-01"   # backfill start date for the first run
+  prices_file: "data/prices.csv"
+
+strategy:
+  name: trend_momentum
+  sma_window: 200        # trend filter: only hold ETFs trading above their 200-day SMA
+  momentum_window: 126   # ranking: ~6-month total return
+  top_n: 3               # number of ETFs to hold
+  min_history: 210       # skip ETFs without enough data
+
+output:
+  signals_dir: "signals"
+  latest_file: "signals/latest.csv"
+  history_file: "signals/history.csv"

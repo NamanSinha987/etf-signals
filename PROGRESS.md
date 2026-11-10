@@ -1,0 +1,66 @@
+# Progress log
+
+Where the project stands, so work can resume on any machine. Updated after every step.
+Project background and roadmap: see `CLAUDE.md`. How to run: see `README.md`.
+
+**Last updated:** 10 Nov 2026
+
+## Resume on a new machine
+
+1. Install Python 3.12 (`.python-version`; GitHub Actions uses 3.12, laptop still has 3.9.2).
+2. Get the code: `git clone https://github.com/<you>/etf-signals.git` (once pushed).
+3. `python -m venv .venv` -> `.venv\Scripts\activate` -> `pip install -r requirements.txt -r requirements-dev.txt`
+4. `git pull` first (the bot commits data daily), then `python -m pytest -q` (offline, ~5 s).
+5. Offline run: `python pipeline.py --no-fetch --no-notify`; with fetching: `python pipeline.py --no-notify`.
+6. Continue from **Next step** below.
+
+## Current status
+
+Phase 1 hardening finished. Local git repo created with the first commit on `main`.
+Not yet on GitHub - waiting on Naman (see Next step).
+
+## Next step
+
+**Step 6b - Naman:** create an empty private GitHub repo, then `git remote add origin <url>` and
+`git push -u origin main`. Actions tab -> run "Daily ETF signals" manually -> check the log
+(does Yahoo work from GitHub? does the bhavcopy fallback get blocked?). Add Telegram secrets
+`TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` (README has the steps).
+
+After that: watch a week of daily runs, then start **Phase 2 (backtest harness)** - see CLAUDE.md.
+
+## Remaining steps
+
+- [ ] 6b. Push to GitHub, manual run, Telegram secrets (Naman)
+- [ ] Install Python 3.12 on the laptop (Naman)
+- [ ] Phase 2: backtest harness reusing `src/strategy.py`; consider NSE bhavcopy parquet data (below)
+
+## Done
+
+| Date | Step | What and why |
+|---|---|---|
+| 9 Nov 2026 | Phase 1 code | Pipeline, strategy, Telegram notify, GitHub workflow written. |
+| 9 Nov 2026 | 1. Bug fixes | `fetch_yahoo` crashed for a single ticker (yfinance >= 0.2.48 column format), so a newly added ETF never got its history; backfill now also retries symbols with only recent rows. Stale-data warning never fired because `last_bar` was computed after forward-fill. Both verified. |
+| 9 Nov 2026 | 2a. Pinned versions | `requirements.txt` pinned to tested versions (pandas 2.3.3, numpy 2.0.2, pyyaml 6.0.2, requests 2.32.5, yfinance 1.2.0) so GitHub installs the same as the laptop. |
+| 9 Nov 2026 | 2b. Line endings | `.gitattributes` stores text as LF so CSVs written on Windows and Linux don't produce whole-file diffs. |
+| 9 Nov 2026 | 3. Reliable fetch | `fetch_yahoo_retry` re-requests symbols that came back empty (3 tries, 10 s / 20 s waits). `today_ist()` replaces `date.today()` so GitHub's UTC clock doesn't matter. Message starts its warnings with "NO NEW PRICES" when a weekday run gets no bar for today. |
+| 9 Nov 2026 | 4. Splits | `adjusted_symbols` compares Yahoo's re-fetched last-10-day closes with stored Yahoo closes on the same dates; >2% difference means Yahoo re-adjusted history (split/bonus), so that symbol's full history is re-downloaded and replaced. |
+| 10 Nov 2026 | 5. Tests + CI | 15 offline tests in `tests/` (strategy picks/actions/stale bar, merge, bhavcopy parse, single-ticker Yahoo, retry, split resync, partial backfill, pipeline re-run and no-new-prices alert). `tests.yml` runs them on every code push; `daily.yml` runs them before the pipeline so broken code can't send signals. pytest pinned in `requirements-dev.txt`. Fixed a pandas FutureWarning in `_append_history`. |
+| 10 Nov 2026 | 6a. Go-live prep | `daily.yml` moved to `.github/workflows/`, `.python-version` = 3.12, README updated, `git init` on `main` with first commit (includes `data/prices.csv` 2018 -> 9 Nov 2026). |
+
+## Data
+
+- `data/prices.csv` - daily OHLCV for the 12 ETFs, 2018-01-01 onward, from Yahoo (`source` column).
+  Created/updated by `pipeline.py`; committed daily by the GitHub bot. Safe to delete - the next
+  run rebuilds it.
+- `signals/latest.csv`, `signals/history.csv` - today's signals and the paper-trading log.
+- **Outside this project:** `D:\NotWindows\Quant2.0\data\export\` has NSE bhavcopy parquet files,
+  `cm_2021..2026` and `fo_2021..2026` (1.2 GB, up to 2 Nov 2026). All 12 ETFs present in CM (series EQ).
+  Gaps: ITBEES, MID150BEES, PHARMABEES, SILVERBEES start 10 May 2022; MON100 starts 16 Jun 2021 -
+  check for missing files or old symbol names. Too big for the repo; intended for Phase 2 backtests
+  and cross-checking Yahoo.
+
+## Open issues / notes
+
+- Laptop Python is 3.9.2, GitHub uses 3.12 - install 3.12 locally. Tests pass on 3.9; CI checks 3.12.
+- Yahoo and the NSE bhavcopy fallback are untested from GitHub's servers (both sometimes block cloud IPs).
+- Don't commit locally generated `data/` or `signals/` changes - the bot owns them; always `git pull` first.

@@ -1,0 +1,5 @@
+# Store text files with LF line endings, whether they are written on Windows or on
+# GitHub's Linux runners, so data/ and signals/ CSVs only show real changes in git.
+* text=auto eol=lf
+*.parquet binary
+*.zip binary
