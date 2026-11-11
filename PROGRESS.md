@@ -98,7 +98,11 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
      Light/dark mode, works at phone width. **Open for step 4:** backtest results live in the
      gitignored `output/backtest/`, so GitHub won't have them - either commit the small result
      CSVs or re-run the backtest in the workflow (e.g. weekly, ~2 min).
-  4. Naman: free Cloudflare account + API token as GitHub secrets; then deploy step + Access.
+  4. Cloudflare hosting. (a) ~~Account + API token (Pages: Edit) as GitHub secrets
+     `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`~~ - done 11 Nov 2026. (b) Run the
+     one-time "Dashboard setup" workflow: creates Pages project `etf-signals-naman` with a
+     placeholder page (no data). (c) Cloudflare Access (email one-time code) on
+     `etf-signals-naman.pages.dev`. (d) Only then add build + deploy to `daily.yml`.
   5. Link in Telegram message.
 
 ### Baseline backtest (11 Nov 2026)
