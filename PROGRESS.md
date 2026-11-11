@@ -85,8 +85,14 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   CAGR 11.8%, vol 15.2%, max DD -36.3% (was vol 306%, DD -90%).
 - **Next:** (1) Naman pushes the backtester repo; (2) decide dashboard hosting (see below);
   (3) `backtest.py` here: baseline result of the current strategy vs NIFTYBEES.
-- **Dashboard idea (11 Nov 2026):** a web page with full analytics/stats, linked from the
-  Telegram message. Hosting decision pending.
+- **Dashboard (decided 11 Nov 2026):** static HTML page with interactive charts, rebuilt by the
+  daily GitHub run, hosted **privately on Cloudflare Pages behind Cloudflare Access** (one-time
+  email code login), link in the Telegram message. Plan:
+  1. Naman: push backtester repo (the daily run will install it from GitHub).
+  2. `backtest.py`: baseline of the current strategy vs NIFTYBEES (main dashboard content).
+  3. Dashboard generator, built and viewed locally first.
+  4. Naman: free Cloudflare account + API token as GitHub secrets; then deploy step + Access.
+  5. Link in Telegram message.
 
 ## Decisions
 
