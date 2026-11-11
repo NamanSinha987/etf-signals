@@ -88,7 +88,7 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
 - **Dashboard (decided 11 Nov 2026):** static HTML page with interactive charts, rebuilt by the
   daily GitHub run, hosted **privately on Cloudflare Pages behind Cloudflare Access** (one-time
   email code login), link in the Telegram message. Plan:
-  1. Naman: push backtester repo (the daily run will install it from GitHub).
+  1. ~~Naman: push backtester repo~~ - done 11 Nov 2026 (public, tag v0.1.0).
   2. `backtest.py`: baseline of the current strategy vs NIFTYBEES (main dashboard content).
   3. Dashboard generator, built and viewed locally first.
   4. Naman: free Cloudflare account + API token as GitHub secrets; then deploy step + Access.
@@ -103,6 +103,12 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   (see CLAUDE.md "Long-term direction"). Price-only for now, to test the pipeline end to end.
 
 ## Open issues / notes
+
+- **GitHub schedule lateness:** the first scheduled run (10 Nov, due 18:47 IST) started ~7 h late
+  (Telegram at 01:59 IST). Fixed the consequence on 11 Nov: `expected_session()` picks the
+  session to look for (today from 16:00 IST, else the previous weekday) instead of the calendar
+  date. If runs keep arriving after ~22:00, add an external trigger (e.g. cron-job.org calling
+  `workflow_dispatch`) - watch the Telegram times this week.
 
 - Laptop Python is 3.9.2, GitHub uses 3.12 - install 3.12 locally. Tests pass on 3.9; CI checks 3.12.
 - Yahoo and the NSE bhavcopy fallback are untested from GitHub's servers (both sometimes block cloud IPs).

@@ -40,6 +40,18 @@ def today_ist() -> date:
     return datetime.now(IST).date()
 
 
+def expected_session(now: datetime | None = None) -> date:
+    """Latest weekday whose closing prices should exist by now: today from 16:00 IST,
+    otherwise the previous weekday. GitHub sometimes starts the 18:47 run hours late
+    (past midnight), so 'today' alone would point at a session that hasn't happened yet.
+    Exchange holidays are not known here - they show up as a NO NEW PRICES warning."""
+    now = now or datetime.now(IST)
+    d = now.date() if now.hour >= 16 else now.date() - timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d
+
+
 # ---------------------------------------------------------------- storage
 
 def load_prices(path: str | Path) -> pd.DataFrame:
@@ -163,7 +175,7 @@ def parse_bhavcopy(df: pd.DataFrame, symbols: list[str]) -> pd.DataFrame:
 def update_prices(prices: pd.DataFrame, symbols: list[str], history_start: str,
                   today: date | None = None) -> pd.DataFrame:
     """Backfill new symbols, refresh the last ~10 days, fall back to bhavcopy if needed."""
-    today = today or today_ist()
+    today = today or expected_session()
     # Backfill symbols with no data, or only the recent-refresh window (a failed earlier backfill)
     first = prices.groupby("symbol")["date"].min() if not prices.empty else pd.Series(dtype="datetime64[ns]")
     cutoff = pd.Timestamp(today - timedelta(days=15))
@@ -184,13 +196,12 @@ def update_prices(prices: pd.DataFrame, symbols: list[str], history_start: str,
         prices = merge_prices(prices[~prices["symbol"].isin(set(full["symbol"]))], full)
     prices = merge_prices(prices, recent)
 
-    # Fallback: symbols whose latest bar is older than today -> try today's bhavcopy
-    if today.weekday() < 5:
-        latest = prices.groupby("symbol")["date"].max() if not prices.empty else pd.Series(dtype="datetime64[ns]")
-        stale = [s for s in symbols if s not in latest or latest[s].date() < today]
-        if stale:
-            log.info("Trying bhavcopy for %d stale symbols", len(stale))
-            prices = merge_prices(prices, fetch_bhavcopy(today, stale))
+    # Fallback: symbols whose latest bar is older than the expected session -> try its bhavcopy
+    latest = prices.groupby("symbol")["date"].max() if not prices.empty else pd.Series(dtype="datetime64[ns]")
+    stale = [s for s in symbols if s not in latest or latest[s].date() < today]
+    if stale:
+        log.info("Trying bhavcopy for %d stale symbols", len(stale))
+        prices = merge_prices(prices, fetch_bhavcopy(today, stale))
     return fix_scale_glitches(prices)
 
 

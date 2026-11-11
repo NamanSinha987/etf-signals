@@ -25,7 +25,7 @@ def setup(tmp_path, monkeypatch, today):
     prices.to_csv(tmp_path / "data/prices.csv", index=False)
     monkeypatch.setattr(pipeline, "ROOT", tmp_path)
     monkeypatch.setattr(pipeline, "update_prices", lambda p, *a, **k: p)   # no network
-    monkeypatch.setattr(pipeline, "today_ist", lambda: today)
+    monkeypatch.setattr(pipeline, "expected_session", lambda: today)
     monkeypatch.setattr(sys, "argv", ["pipeline.py", "--no-notify"])
 
 

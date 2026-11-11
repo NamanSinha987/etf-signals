@@ -7,6 +7,18 @@ import src.data as data
 from conftest import make_prices
 
 
+@pytest.mark.parametrize("now, expected", [
+    ("2026-11-10 18:47", "2026-11-10"),   # on schedule (Tue evening) -> today
+    ("2026-11-11 01:59", "2026-11-10"),   # run started 7 h late, past midnight -> Tue
+    ("2026-11-10 12:00", "2026-11-09"),   # manual run during market hours -> Mon
+    ("2026-11-09 01:59", "2026-11-06"),   # Monday early morning -> Friday
+    ("2026-11-08 20:00", "2026-11-06"),   # Sunday -> Friday
+])
+def test_expected_session(now, expected):
+    ts = pd.Timestamp(now).to_pydatetime().replace(tzinfo=data.IST)
+    assert data.expected_session(ts) == date.fromisoformat(expected)
+
+
 def test_merge_prices_new_rows_replace_old():
     old = make_prices({"A": (100, 0, 3)})
     new = old.tail(1).assign(close=999.0)

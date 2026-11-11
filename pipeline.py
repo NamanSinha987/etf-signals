@@ -13,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from src.data import load_prices, sanity_check, save_prices, today_ist, update_prices
+from src.data import expected_session, load_prices, sanity_check, save_prices, update_prices
 from src.notify import format_message, send_telegram
 from src.strategy import generate_signals
 
@@ -61,9 +61,9 @@ def main() -> int:
     stale = signals[pd.to_datetime(signals["last_bar"]) < asof]["symbol"].tolist()
     if stale:
         warnings.append(f"Stale data (no bar on {asof.date()}): {', '.join(stale)}")
-    today = today_ist()
-    if not args.no_fetch and today.weekday() < 5 and asof.date() < today:
-        warnings.insert(0, f"NO NEW PRICES for {today:%d %b} - market holiday or data source "
+    session = expected_session()
+    if not args.no_fetch and asof.date() < session:
+        warnings.insert(0, f"NO NEW PRICES for {session:%d %b} - market holiday or data source "
                            f"failure. These signals are from {asof:%d %b}.")
 
     # 3. Save
