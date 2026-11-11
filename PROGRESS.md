@@ -95,9 +95,7 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
      Logic in `src/dashboard.py`, page in `src/dashboard_template.html`, 3 tests. Sections: today's
      target + every ETF with the reason it is/isn't held; price vs 200d average chart (ETF picker,
      6M-All); backtest tables + growth and drawdown charts; signal history; data health.
-     Light/dark mode, works at phone width. **Open for step 4:** backtest results live in the
-     (resolved in step 4 below: results now committed in `results/backtest/`)
-
+     Light/dark mode, works at phone width.
   4. ~~Cloudflare hosting~~ - done 11 Nov 2026. API token (Pages: Edit) + account ID are GitHub
      secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. Pages project `etf-signals-naman`
      created (one-time setup workflow, since removed). `daily.yml` now builds the dashboard and
