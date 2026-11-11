@@ -1,0 +1,31 @@
+name: Dashboard setup (one-time)
+
+# Creates the Cloudflare Pages project and deploys a placeholder page with no data,
+# so Cloudflare Access (login) can be put in front of it before real data is published.
+on:
+  workflow_dispatch: {}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Placeholder page
+        run: |
+          mkdir site
+          echo '<!doctype html><meta charset="utf-8"><title>ETF Signals</title><p>Dashboard coming soon.</p>' > site/index.html
+
+      - name: Create Pages project (fails harmlessly if it already exists)
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create etf-signals-naman --production-branch=main
+
+      - name: Deploy placeholder
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=etf-signals-naman --branch=main
