@@ -1,7 +1,7 @@
 """Build the static dashboard from stored data (no fetching).
 
 Run:   python dashboard.py      -> output/dashboard/index.html (open it in a browser)
-Backtest section appears if output/backtest/ exists (run `python backtest.py` first).
+Backtest section comes from results/backtest/ (re-run `python backtest.py` and commit to refresh).
 """
 from __future__ import annotations
 
@@ -24,7 +24,6 @@ log = logging.getLogger("dashboard")
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=ROOT / "config.yaml")
-    ap.add_argument("--out", default=ROOT / "output" / "dashboard" / "index.html")
     args = ap.parse_args()
 
     cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
@@ -38,9 +37,11 @@ def main() -> int:
     history = pd.read_csv(ROOT / cfg["output"]["history_file"], parse_dates=["asof"])
 
     html = build_html(cfg, prices, signals, history, ROOT / cfg["backtest"]["output_dir"])
-    out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
+    site = ROOT / cfg["dashboard"]["output_dir"]
+    site.mkdir(parents=True, exist_ok=True)
+    out = site / "index.html"
     out.write_text(html, encoding="utf-8")
+    (site / "robots.txt").write_text("User-agent: *\nDisallow: /\n", encoding="utf-8")  # not private, just unlisted
     log.info("Dashboard written to %s (%.0f KB)", out, out.stat().st_size / 1024)
     return 0
 

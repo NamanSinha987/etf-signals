@@ -96,20 +96,24 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
      target + every ETF with the reason it is/isn't held; price vs 200d average chart (ETF picker,
      6M-All); backtest tables + growth and drawdown charts; signal history; data health.
      Light/dark mode, works at phone width. **Open for step 4:** backtest results live in the
-     gitignored `output/backtest/`, so GitHub won't have them - either commit the small result
-     CSVs or re-run the backtest in the workflow (e.g. weekly, ~2 min).
-  4. Cloudflare hosting. (a) ~~Account + API token (Pages: Edit) as GitHub secrets
-     `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`~~ - done 11 Nov 2026. (b) Run the
-     one-time "Dashboard setup" workflow: creates Pages project `etf-signals-naman` with a
-     placeholder page (no data). (c) Cloudflare Access (email one-time code) on
-     `etf-signals-naman.pages.dev`. (d) Only then add build + deploy to `daily.yml`.
+     (resolved in step 4 below: results now committed in `results/backtest/`)
+
+  4. ~~Cloudflare hosting~~ - done 11 Nov 2026. API token (Pages: Edit) + account ID are GitHub
+     secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. Pages project `etf-signals-naman`
+     created (one-time setup workflow, since removed). `daily.yml` now builds the dashboard and
+     deploys it to **https://etf-signals-naman.pages.dev** after signals are sent and committed
+     (`continue-on-error`, so a Cloudflare problem never blocks signals). Backtest results moved
+     to the committed `results/backtest/` so GitHub can show them; re-run `python backtest.py`
+     and commit to refresh. **No login (decided 11 Nov 2026):** page is public but unlisted
+     (`noindex` + `robots.txt`); add Cloudflare Access (email one-time code, free) once it
+     shows real positions or broker data (Phase 4).
   5. Link in Telegram message.
 
 ### Baseline backtest (11 Nov 2026)
 
 `python backtest.py` (needs `pip install -r requirements-research.txt` or `pip install -e ../backtester`).
 Replays the live `generate_signals()` daily, trades only when the held set changes (BUY/SELL,
-rebalance to equal weight), next-day open, 10 bps/side. Output in `output/backtest/` (gitignored).
+rebalance to equal weight), next-day open, 10 bps/side. Output in `results/backtest/` (committed; the dashboard reads it).
 
 | 6 Nov 2018 - 9 Nov 2026 | Strategy | NIFTYBEES buy & hold |
 |---|---|---|

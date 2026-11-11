@@ -4,7 +4,7 @@ The same generate_signals() the daily pipeline uses is called once per historica
 only the data known on that day; trades happen at the next day's open, with costs.
 
 Run:   python backtest.py        (needs: pip install -r requirements-research.txt)
-Writes output/backtest/: summary.csv, yearly.csv, equity.csv, trades.csv, equity.png
+Writes results/backtest/ (committed - the dashboard reads it): summary.csv, yearly.csv, equity.csv, trades.csv, equity.png
 """
 from __future__ import annotations
 

@@ -48,3 +48,27 @@ jobs:
             git commit -m "Daily update $(date -u +%Y-%m-%d)"
             git push
           fi
+
+      # Dashboard: after signals are sent and saved, so a Cloudflare problem can't block them.
+      - name: Build dashboard
+        id: dashboard
+        continue-on-error: true
+        run: python dashboard.py
+
+      - name: Create Pages project (no-op if it already exists)
+        if: steps.dashboard.outcome == 'success'
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create etf-signals-naman --production-branch=main
+
+      - name: Deploy dashboard to Cloudflare Pages
+        if: steps.dashboard.outcome == 'success'
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy output/dashboard --project-name=etf-signals-naman --branch=main --commit-dirty=true
