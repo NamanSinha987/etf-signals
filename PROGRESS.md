@@ -3,7 +3,7 @@
 Where the project stands, so work can resume on any machine. Updated after every step.
 Project background and roadmap: see `CLAUDE.md`. How to run: see `README.md`.
 
-**Last updated:** 10 Nov 2026
+**Last updated:** 11 Nov 2026 (dashboard built locally; next: Cloudflare hosting, dashboard plan step 4)
 
 ## Resume on a new machine
 
@@ -90,7 +90,14 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   email code login), link in the Telegram message. Plan:
   1. ~~Naman: push backtester repo~~ - done 11 Nov 2026 (public, tag v0.1.0).
   2. ~~`backtest.py`: baseline~~ - done 11 Nov 2026, see "Baseline backtest" below.
-  3. Dashboard generator, built and viewed locally first.
+  3. ~~Dashboard generator~~ - done 11 Nov 2026: `python dashboard.py` ->
+     `output/dashboard/index.html` (one self-contained file, ~650 KB, no external libraries).
+     Logic in `src/dashboard.py`, page in `src/dashboard_template.html`, 3 tests. Sections: today's
+     target + every ETF with the reason it is/isn't held; price vs 200d average chart (ETF picker,
+     6M-All); backtest tables + growth and drawdown charts; signal history; data health.
+     Light/dark mode, works at phone width. **Open for step 4:** backtest results live in the
+     gitignored `output/backtest/`, so GitHub won't have them - either commit the small result
+     CSVs or re-run the backtest in the workflow (e.g. weekly, ~2 min).
   4. Naman: free Cloudflare account + API token as GitHub secrets; then deploy step + Access.
   5. Link in Telegram message.
 
