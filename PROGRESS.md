@@ -3,7 +3,7 @@
 Where the project stands, so work can resume on any machine. Updated after every step.
 Project background and roadmap: see `CLAUDE.md`. How to run: see `README.md`.
 
-**Last updated:** 11 Nov 2026 (dashboard live with Telegram link; next: strategy research)
+**Last updated:** 12 Nov 2026 (Indian ETF universe drafted; strategy research led by Naman)
 
 ## Resume on a new machine
 
@@ -138,6 +138,21 @@ Findings / caveats:
 - Universe chosen with hindsight (today's liquid ETFs) - optimistic bias.
 - MID150BEES: Yahoo only has data from 22 Sep 2026 (currently returns 7 rows) - never selectable
   in the backtest. Bhavcopy archive has it from 10 May 2022; fill from there (one-time import).
+
+## Strategy research (Naman leads from 11 Nov 2026; Claude assists)
+
+- Capital for the next few months: max Rs 2-3 lakh (orders ~Rs 50k-1L). Liquidity floor for the
+  universe: median daily traded value >= Rs 1 cr (for tight spreads, not size). Broker: INDmoney
+  (can also trade US / European / commodity ETFs).
+- **12 Nov 2026 - Indian ETF universe:** `research/scan_etf_liquidity.py` scans every NSE ETF in the
+  bhavcopy archive (INF ISIN, series EQ), median traded value over 6 months, names from AMFI's NAV
+  file -> `research/etf_liquidity.csv` (309 ETFs trade; 122 >= Rs 1 cr/day). Hand-curated
+  `research/universe.csv`: 47 exposures (1 cash, 6 broad, 18 sector, 4 theme, 8 factor,
+  2 commodity, 3 bond, 5 international), most liquid ETF per exposure, with the underlying index
+  (for longer test history) and notes on overlaps / recent listings. **For Naman to review.**
+  Cash should be LIQUIDBEES (earns the overnight rate); backtester currently assumes cash earns 0.
+- Next (Naman to decide): global ETF universe (US-listed via INDmoney), index histories for the
+  Indian exposures, then test strategy families.
 
 ## Decisions
 

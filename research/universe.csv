@@ -1,0 +1,48 @@
+group,exposure,symbol,median_value_cr,index,alternatives,note,etf_name
+cash,Overnight rate,LIQUIDBEES,307.3,Nifty 1D Rate,LIQUIDCASE LIQUID1,,Nippon India ETF Nifty 1D Rate Liquid BeES
+broad,Nifty 50,NIFTYBEES,176.1,Nifty 50,SETFNIF50 NIFTYIETF,you hold this,Nippon India ETF Nifty 50 BeES
+broad,Nifty Next 50,JUNIORBEES,26.1,Nifty Next 50,NEXT50IETF SETFNN50,,Nippon India ETF Nifty Next 50 Junior BeES
+broad,Midcap 150,MID150BEES,16.8,Nifty Midcap 150,MIDCAPETF MIDCAPIETF,Yahoo history broken before Sep 2026,Nippon India ETF Nifty Midcap 150
+broad,Midcap 100,MOM100,2.3,Nifty Midcap 100,,overlaps Midcap 150,Motilal Oswal Nifty Midcap 100 ETF
+broad,Smallcap 250,HDFCSML250,26.1,Nifty Smallcap 250,MOSMALL250,,HDFC NIFTY Smallcap 250 ETF
+broad,Nifty 500,MONIFTY500,1.3,Nifty 500,HDFCBSE500,overlaps Nifty 50 + Midcap,Motilal Oswal Nifty 500 ETF
+sector,Bank,BANKBEES,46.6,Nifty Bank,SETFNIFBK BANKIETF,,Nippon India ETF Nifty Bank BeES
+sector,PSU Bank,PSUBNKBEES,18.1,Nifty PSU Bank,PSUBANK,,Nippon India ETF Nifty PSU Bank BeES
+sector,Private Bank,PVTBANIETF,6.0,Nifty Private Bank,,overlaps Bank,ICICI Prudential Nifty Private Bank ETF
+sector,Financials ex-bank,FINIETF,1.0,Nifty Financial Services Ex-Bank,,,ICICI Prudential Nifty Financial Services Ex-Bank ETF
+sector,Capital Markets,MOCAPITAL,4.5,Nifty Capital Market,,listed Mar 2025,Motilal Oswal Nifty Capital Market ETF
+sector,IT,ITBEES,42.6,Nifty IT,ITIETF IT,,Nippon India ETF Nifty IT
+sector,Pharma,PHARMABEES,12.9,Nifty Pharma,,,Nippon India Nifty Pharma ETF
+sector,Healthcare,HEALTHIETF,1.8,Nifty Healthcare,,overlaps Pharma,ICICI Prudential Nifty Healthcare ETF
+sector,Hospitals,GROWWHOSPI,1.6,BSE Hospitals,,listed Mar 2026,Groww BSE Hospitals ETF
+sector,FMCG,FMCGIETF,5.8,Nifty FMCG,,,ICICI Prudential Nifty FMCG ETF
+sector,Auto,AUTOBEES,5.3,Nifty Auto,AUTOIETF,,Nippon India Nifty Auto ETF
+sector,Metal,METALIETF,9.6,Nifty Metal,METAL,,ICICI Prudential Nifty Metal ETF
+sector,Oil & Gas,OILIETF,1.6,Nifty Oil & Gas,,,ICICI Prudential Nifty Oil & Gas ETF
+sector,Energy,ENERGY,1.2,Nifty Energy,,listed Nov 2025,Mirae Asset Nifty Energy ETF
+sector,Power,GROWWPOWER,2.7,BSE Power,,you hold this; listed Aug 2025,Groww BSE Power ETF
+sector,Infrastructure,INFRAIETF,1.0,Nifty Infrastructure,,,ICICI Prudential Nifty Infrastructure ETF
+sector,Realty,MOREALTY,4.4,Nifty Realty,,,Motilal Oswal Nifty Realty ETF
+sector,Chemicals,CHEMICAL,1.3,Nifty Chemicals,,listed Nov 2025,Kotak Nifty Chemicals ETF
+theme,CPSE,CPSEETF,8.2,Nifty CPSE,,,CPSE ETF
+theme,Bharat 22,ICICIB22,3.6,S&P BSE Bharat 22,,overlaps CPSE,BHARAT 22 ETF
+theme,Defence,MODEFENCE,14.3,Nifty India Defence,GROWWDEFNC,,Motilal Oswal Nifty India Defence ETF
+theme,Railways PSU,GROWWRAIL,1.4,Nifty India Railways PSU,,listed Feb 2025,Groww Nifty India Railways PSU ETF
+factor,Momentum (Nifty 500),MOMENTUM50,2.6,Nifty 500 Momentum 50,,,Motilal Oswal Nifty 500 Momentum 50 ETF
+factor,Momentum (Nifty 200),MOM30IETF,2.0,Nifty 200 Momentum 30,,overlaps Momentum 50,ICICI Prudential Nifty 200 Momentum 30 ETF
+factor,Alpha 50,ALPHA,5.8,Nifty Alpha 50,,,Kotak Nifty Alpha 50 ETF
+factor,Alpha (Nifty 200),ALPHAETF,1.1,Nifty 200 Alpha 30,,overlaps Alpha 50,Mirae Asset Nifty 200 Alpha 30 ETF
+factor,Low volatility,LOWVOLIETF,2.7,Nifty 100 Low Volatility 30,LOWVOL1,,ICICI Prudential Nifty 100 Low Volatility 30 ETF
+factor,Smallcap momentum-quality,SMALLCAP,7.7,Nifty Smallcap 250 Momentum Quality 100,,,Mirae Asset Nifty Smallcap 250 Momentum Quality 100 ETF
+factor,Mid-small momentum-quality,MIDSMALL,1.4,Nifty MidSmallcap 400 Momentum Quality 100,,,Mirae Asset Nifty MidSmallcap400 Momentum Quality 100 ETF
+factor,Top 10 equal weight,TOP10ADD,1.3,Nifty Top 10 Equal Weight,,,DSP Nifty Top 10 Equal Weight ETF
+commodity,Gold,GOLDBEES,264.9,Domestic gold price,SETFGOLD GOLDIETF,,Nippon India ETF Gold BeES
+commodity,Silver,SILVERBEES,473.3,Domestic silver price,TATSILV SILVERIETF,,Nippon India Silver ETF
+bond,Long gilt 8-13y,LTGILTBEES,3.6,Nifty 8-13 yr G-Sec,,,Nippon India ETF Nifty 8-13 yr G-Sec Long Term Gilt
+bond,Gilt 5y,GILT5YBEES,1.5,Nifty 5 yr Benchmark G-Sec,,,Nippon India ETF Nifty 5 yr Benchmark G-Sec
+bond,PSU bonds 2030,EBBETF0430,1.9,Nifty Bharat Bond Apr 2030,,fixed maturity - shortens over time,Bharat Bond ETF - April 2030
+international,Nasdaq 100,MON100,17.2,Nasdaq 100,,India-listed: can trade at a premium to NAV,Motilal Oswal Nasdaq 100 ETF
+international,NYSE FANG+,MAFANG,4.5,NYSE FANG+,,premium to NAV risk; 10 stocks,Mirae Asset NYSE FANG+ ETF
+international,S&P 500 Top 50,MASPTOP50,1.4,S&P 500 Top 50,,premium to NAV risk,Mirae Asset S&P 500 Top 50 ETF
+international,Hang Seng,HNGSNGBEES,4.8,Hang Seng,,premium to NAV risk,Nippon India ETF Hang Seng BeES
+international,Hang Seng Tech,MAHKTECH,1.1,Hang Seng TECH,,premium to NAV risk,Mirae Asset Hang Seng TECH ETF
