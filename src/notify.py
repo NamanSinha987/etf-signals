@@ -1,6 +1,7 @@
 """Send the daily summary to Telegram. Silently skipped if credentials are not set."""
 from __future__ import annotations
 
+import html
 import logging
 import os
 
@@ -33,7 +34,15 @@ def format_message(signals: pd.DataFrame, warnings: list[str]) -> str:
     return "\n".join(lines)
 
 
-def send_telegram(text: str) -> bool:
+def telegram_html(text: str, link: str | None = None) -> str:
+    """Message as a monospace block; the dashboard link goes below it (links inside <pre> aren't clickable)."""
+    body = f"<pre>{html.escape(text)}</pre>"
+    if link:
+        body += f'\n<a href="{html.escape(link)}">Open dashboard</a>'
+    return body
+
+
+def send_telegram(text: str, link: str | None = None) -> bool:
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if not token or not chat_id:
@@ -42,7 +51,8 @@ def send_telegram(text: str) -> bool:
     try:
         r = requests.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
-            json={"chat_id": chat_id, "text": f"<pre>{text}</pre>", "parse_mode": "HTML"},
+            json={"chat_id": chat_id, "text": telegram_html(text, link), "parse_mode": "HTML",
+                  "disable_web_page_preview": True},
             timeout=20,
         )
         r.raise_for_status()

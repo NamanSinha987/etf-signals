@@ -75,7 +75,7 @@ def main() -> int:
     msg = format_message(signals, warnings)
     print("\n" + msg + "\n")
     if not args.no_notify:
-        send_telegram(msg)
+        send_telegram(msg, link=cfg.get("dashboard", {}).get("url"))
     return 0
 
 

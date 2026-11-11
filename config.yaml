@@ -39,5 +39,6 @@ backtest:
   output_dir: "results/backtest"   # committed, so the dashboard built on GitHub can show it
 
 dashboard:
+  url: "https://etf-signals-naman.pages.dev"   # linked at the bottom of the Telegram message
   output_dir: "output/dashboard"   # built daily by GitHub, deployed to Cloudflare Pages
                                    # project "etf-signals-naman" (set in .github/workflows/daily.yml)

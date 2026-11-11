@@ -3,7 +3,7 @@
 Where the project stands, so work can resume on any machine. Updated after every step.
 Project background and roadmap: see `CLAUDE.md`. How to run: see `README.md`.
 
-**Last updated:** 11 Nov 2026 (dashboard built locally; next: Cloudflare hosting, dashboard plan step 4)
+**Last updated:** 11 Nov 2026 (dashboard live with Telegram link; next: strategy research)
 
 ## Resume on a new machine
 
@@ -105,7 +105,9 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
      and commit to refresh. **No login (decided 11 Nov 2026):** page is public but unlisted
      (`noindex` + `robots.txt`); add Cloudflare Access (email one-time code, free) once it
      shows real positions or broker data (Phase 4).
-  5. Link in Telegram message.
+  5. ~~Link in Telegram message~~ - done 11 Nov 2026: "Open dashboard" link below the message
+     (`dashboard.url` in config.yaml). Telegram is sent before the deploy step, so for ~1 min the
+     link shows the previous day's page.
 
 ### Baseline backtest (11 Nov 2026)
 
