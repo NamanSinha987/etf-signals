@@ -108,6 +108,12 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   5. ~~Link in Telegram message~~ - done 11 Nov 2026: "Open dashboard" link below the message
      (`dashboard.url` in config.yaml). Telegram is sent before the deploy step, so for ~1 min the
      link shows the previous day's page.
+- **Dashboard v2 (wanted, later - 11 Nov 2026):** Naman finds the current page too narrow (only the
+  live strategy). Wants a much more functional dashboard: many views, drag-and-drop / rearrangeable
+  panels, explore lots of things. Revisit once several strategies exist and one is finalized -
+  then the dashboard should compare strategies and data, not just show one. Note: interactive
+  exploration (choosing parameters, re-running backtests) needs a live app (e.g. Streamlit/Dash
+  locally, or a small hosted app), not just a static page.
 
 ### Baseline backtest (11 Nov 2026)
 
