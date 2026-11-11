@@ -89,10 +89,34 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   daily GitHub run, hosted **privately on Cloudflare Pages behind Cloudflare Access** (one-time
   email code login), link in the Telegram message. Plan:
   1. ~~Naman: push backtester repo~~ - done 11 Nov 2026 (public, tag v0.1.0).
-  2. `backtest.py`: baseline of the current strategy vs NIFTYBEES (main dashboard content).
+  2. ~~`backtest.py`: baseline~~ - done 11 Nov 2026, see "Baseline backtest" below.
   3. Dashboard generator, built and viewed locally first.
   4. Naman: free Cloudflare account + API token as GitHub secrets; then deploy step + Access.
   5. Link in Telegram message.
+
+### Baseline backtest (11 Nov 2026)
+
+`python backtest.py` (needs `pip install -r requirements-research.txt` or `pip install -e ../backtester`).
+Replays the live `generate_signals()` daily, trades only when the held set changes (BUY/SELL,
+rebalance to equal weight), next-day open, 10 bps/side. Output in `output/backtest/` (gitignored).
+
+| 6 Nov 2018 - 9 Nov 2026 | Strategy | NIFTYBEES buy & hold |
+|---|---|---|
+| CAGR | 24.2% | 12.6% |
+| Volatility | 20.9% | 15.5% |
+| Sharpe (rf=0) | 1.14 | 0.85 |
+| Max drawdown | -28.5% | -36.3% |
+| Turnover / year | 13.5x | 0 |
+
+Findings / caveats:
+- Holdings change every ~6 trading days (360 change days), mostly #3/#4 rank flips -> high
+  turnover (~2.7%/yr cost drag). First improvement to test: a rank buffer (keep until rank > 5)
+  or weekly/monthly rebalancing.
+- 2019-2023 roughly matched NIFTYBEES; nearly all outperformance is 2024-2026 (gold, silver,
+  PSU/CPSE). Concentrated, not a steady edge yet.
+- Universe chosen with hindsight (today's liquid ETFs) - optimistic bias.
+- MID150BEES: Yahoo only has data from 22 Sep 2026 (currently returns 7 rows) - never selectable
+  in the backtest. Bhavcopy archive has it from 10 May 2022; fill from there (one-time import).
 
 ## Decisions
 

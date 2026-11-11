@@ -31,3 +31,9 @@ output:
   signals_dir: "signals"
   latest_file: "signals/latest.csv"
   history_file: "signals/history.csv"
+
+backtest:
+  start: "2018-01-01"    # first decision date (the strategy also needs min_history days first)
+  cost_bps: 10           # per side: brokerage + STT/stamp/exchange fees + bid-ask slippage
+  benchmark: NIFTYBEES   # buy-and-hold comparison, same costs
+  output_dir: "output/backtest"

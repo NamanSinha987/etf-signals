@@ -1,0 +1,5 @@
+# Research / backtesting (not needed by the daily pipeline).
+# While developing the library locally, use instead:  pip install -e ../backtester
+-r requirements.txt
+backtester @ git+https://github.com/NamanSinha987/backtester@v0.1.0
+matplotlib==3.9.4
