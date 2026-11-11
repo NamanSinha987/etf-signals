@@ -67,6 +67,28 @@ def test_adjusted_symbols_detects_rewritten_history():
     assert data.adjusted_symbols(stored, fresh) == []
 
 
+def test_fix_scale_glitches_rescales_only_power_of_ten_errors():
+    p = make_prices({"A": (300, 0, 20), "B": (300, 0, 20)})
+    a = p.index[p["symbol"] == "A"]
+    p.loc[a[8:10], "close"] /= 9.0          # illiquid ETF: ~10x off, not exactly
+    p.loc[a[15], "close"] /= 100            # 100x off
+    b = p.index[p["symbol"] == "B"]
+    p.loc[b[12:], "close"] *= 0.77          # real -23% crash: must stay
+    out = data.fix_scale_glitches(p)
+    fixed = out[out["source"] == "yahoo_fixed"]
+    assert set(fixed["symbol"]) == {"A"} and len(fixed) == 3
+    assert out.loc[out["symbol"] == "A", "close"].between(250, 350).all()
+    assert (out.loc[out["symbol"] == "B", "close"].iloc[12:] == 300 * 0.77).all()
+
+
+def test_fixed_rows_not_used_for_split_detection():
+    stored = make_prices({"A": (100, 0, 10)})
+    stored.loc[stored.index[-1], ["close", "source"]] = [100.0, "yahoo_fixed"]
+    fresh = stored.copy()
+    fresh.loc[fresh.index[-1], "close"] = 10.0                  # Yahoo glitch comes back
+    assert data.adjusted_symbols(stored, fresh) == []
+
+
 class FakeYahoo:
     """Serves slices of a 'true' price history and records what was requested."""
 

@@ -13,6 +13,7 @@ import zipfile
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import requests
 
@@ -190,7 +191,33 @@ def update_prices(prices: pd.DataFrame, symbols: list[str], history_start: str,
         if stale:
             log.info("Trying bhavcopy for %d stale symbols", len(stale))
             prices = merge_prices(prices, fetch_bhavcopy(today, stale))
-    return prices
+    return fix_scale_glitches(prices)
+
+
+def fix_scale_glitches(prices: pd.DataFrame, window: int = 5, tol: float = 0.1) -> pd.DataFrame:
+    """Rescale bars that are off by a power of 10 vs their neighbours.
+
+    Yahoo shows some NSE ETFs 10x-100x too small for a day or two around unit splits
+    (e.g. 19-20 Dec 2019). tol=0.1 in log10 means 7.9x-12.6x (or 79x-126x) counts as a
+    glitch - illiquid ETFs are not exactly 10x off. No real ETF move is that large, so those bars are
+    rescaled to match the surrounding prices and marked `source = <source>_fixed`.
+    """
+    if prices.empty:
+        return prices
+    out = prices.sort_values(["symbol", "date"]).reset_index(drop=True)
+    ref = out.groupby("symbol")["close"].transform(
+        lambda s: s.rolling(2 * window + 1, center=True, min_periods=3).median())
+    logr = np.log10(ref / out["close"])
+    k = logr.round()
+    bad = (k != 0) & ((logr - k).abs() < tol)
+    if bad.any():
+        for sym, d in out.loc[bad, ["symbol", "date"]].itertuples(index=False):
+            log.warning("Fixed price scale glitch: %s %s", sym, pd.Timestamp(d).date())
+        factor = 10.0 ** k[bad]
+        for c in ["open", "high", "low", "close"]:
+            out.loc[bad, c] = out.loc[bad, c] * factor
+        out.loc[bad, "source"] = out.loc[bad, "source"].str.replace("_fixed", "") + "_fixed"
+    return out
 
 
 def adjusted_symbols(old: pd.DataFrame, new: pd.DataFrame, tol: float = 0.02) -> list[str]:

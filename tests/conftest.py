@@ -18,7 +18,7 @@ def make_prices(spec: dict[str, tuple[float, float, int]], end: str = "2026-11-0
         rows.append(pd.DataFrame({
             "date": dates, "symbol": sym,
             "open": np.nan, "high": np.nan, "low": np.nan,
-            "close": p0 * (1 + r) ** np.arange(n),
+            "close": p0 * (1 + r) ** np.arange(n, dtype=float),
             "volume": 1000.0, "source": "yahoo",
         }))
     return pd.concat(rows, ignore_index=True)

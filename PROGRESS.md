@@ -79,8 +79,14 @@ After that: watch a week of daily runs, then start **Phase 2 (backtest harness)*
   19-20 Dec 2019 (NIFTYBEES, BANKBEES, GOLDBEES, HNGSNGBEES, PSUBNKBEES) and 17-18 Jun 2021
   (MON100). Doesn't affect live signals (200-day lookback) but breaks any backtest over those
   dates. SILVERBEES -19% / -23% on 30 Jan / 2 Feb 2026 is real (silver crash).
-- **Next:** (1) Naman pushes the backtester repo; (2) clean the Yahoo split glitches;
+- **Fixed 11 Nov 2026:** `fix_scale_glitches` in `src/data.py` rescales bars 7.9x-12.6x (or
+  ~100x) off their +-5-day median and marks them `source = yahoo_fixed` (12 rows repaired;
+  `adjusted_symbols` ignores fixed rows). Runs on every update. NIFTYBEES buy-and-hold now:
+  CAGR 11.8%, vol 15.2%, max DD -36.3% (was vol 306%, DD -90%).
+- **Next:** (1) Naman pushes the backtester repo; (2) decide dashboard hosting (see below);
   (3) `backtest.py` here: baseline result of the current strategy vs NIFTYBEES.
+- **Dashboard idea (11 Nov 2026):** a web page with full analytics/stats, linked from the
+  Telegram message. Hosting decision pending.
 
 ## Decisions
 
